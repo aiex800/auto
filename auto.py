@@ -7,20 +7,19 @@ except:
     time.sleep(1)
     exit
 try:
-    amountOfUsers = int(input("Ange antal av användare att läsa in: "))
+    amountOfUsers = int(input("Ange antal av användare att läsa in: ")) + 1
 except:
     print("error")
     print("Antal användare automatiskt angivet som 1")
     amountOfUsers = 1
 lista = []
 listRow = 1
-command = "None"
 with open(str(filnamn), newline='') as myFile:
     reader = csv.reader(myFile)
     for row in reader:
         lista.append(row)
 
-def listAssign(listRow):
+def listAssign():
     uName = str(lista[listRow][0])
     uGivenName = str(lista[listRow][1])
     uSurname = str(lista[listRow][2])
@@ -44,25 +43,30 @@ def createPassword():
 
 
 
-uPassword = createPassword()
-uName, uGivenName, uSurname, uAccountName = listAssign(listRow)
-global cmd
-cmd = 'New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
+
+#cmd = 'New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
 
 if platform.system() == "Windows":
-    command = cmd
+    OpS = "windows"
     print("Windows system detected...")
     time.sleep(1.5)
 elif platform.system() == "Linux":
-    command = unix
+    OpS = "linux"
     print("Linux system detected...")
     time.sleep(1.5)
 else:
     print("ERR0R0R PICNIC: Köp ny dator")
+    time.sleep(1)
+    exit
 
 while listRow < amountOfUsers:
-    createPassword()
-    listAssign(listRow)
-    print(command)
+    uPassword = createPassword()
+    uName, uGivenName, uSurname, uAccountName = listAssign()
+    cmd = 'New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
+    if OpS == "windows":
+        print(cmd)
+    else:
+        print(unix)
+
     listRow += 1
     print(listRow)
