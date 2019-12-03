@@ -6,14 +6,18 @@ except:
     print("Error")
     time.sleep(1)
     exit
+
 try:
     amountOfUsers = int(input("Ange antal av användare att läsa in: ")) + 1
 except:
     print("error")
     print("Antal användare automatiskt angivet som 1")
     amountOfUsers = 1
+
 lista = []
 listRow = 1
+command = "None"
+
 with open(str(filnamn), newline='') as myFile:
     reader = csv.reader(myFile)
     for row in reader:
@@ -64,9 +68,10 @@ while listRow < amountOfUsers:
     uName, uGivenName, uSurname, uAccountName = listAssign()
     cmd = 'New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
     if OpS == "windows":
-        print(cmd)
+        command = cmd
     else:
-        print(unix)
+        command = unix
 
+    returned_value = subprocess.call(command, shell=True)
     listRow += 1
-    print(listRow)
+print("returned_value: ", returned_value)
