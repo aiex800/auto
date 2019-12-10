@@ -66,7 +66,7 @@ else:
 while listRow < amountOfUsers:
     uPassword = createPassword()
     uName, uGivenName, uSurname, uAccountName = listAssign()
-    cmd = 'New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
+    cmd = '"New-ADUser -name "' + uName + '" -GivenName "' + uGivenName + '" -Surname "' + uSurname + '" -SamAccountName "' + uAccountName + '" -AccountPassword "' + uPassword + '" -Enable $true'
     if OpS == "windows":
         command = cmd
     else:
